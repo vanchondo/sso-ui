@@ -24,7 +24,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 sh 'docker stop ${app_name} || true && docker rm ${app_name} || true'
-                sh 'docker run --name ${app_name} -d --restart unless-stopped -p80:80 ${app_name}:${version}'
+                sh 'docker run --name ${app_name} -d --restart unless-stopped -p8081:80 ${app_name}:${version}'
             }
         }
     }
