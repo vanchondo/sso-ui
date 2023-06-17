@@ -8,4 +8,4 @@ COPY . /app/
 RUN npm run build --prod
 
 FROM nginx:1.23.3
-COPY --from=build-step /app/dist /usr/share/nginx/html
+COPY --from=build-step /app/build /usr/share/nginx/html
