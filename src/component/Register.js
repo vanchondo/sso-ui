@@ -1,7 +1,10 @@
 import React from 'react';
+import RegisterController from '../controllers/RegisterController';
   
 function Register (){
-    return <h1>Welcome to the registration page!</h1>
+    return (
+        <RegisterController />
+    );
 }
   
 export default Register;
