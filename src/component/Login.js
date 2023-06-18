@@ -1,7 +1,12 @@
 import React from 'react';
-  
-function Login (){
-    return <h1>Welcome to the login!</h1>
-}
-  
+import LoginController from '../controllers/LoginController';
+
+function Login() {
+    return (
+        <div>
+            <LoginController />
+        </div>
+    );
+};
+
 export default Login;
