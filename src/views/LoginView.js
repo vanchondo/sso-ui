@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './LoginView.css';
 
 const LoginView = ({ onLogin }) => {
@@ -6,6 +7,9 @@ const LoginView = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const origin = queryParams.get('origin');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,9 +17,12 @@ const LoginView = ({ onLogin }) => {
         setLoading(true);
 
         try {
-            await onLogin(username, password);
+            var data = await onLogin(username, password);
+            window.location.href = origin + "?token=" + data.token;
         } catch (error) {
             setError(error.message);
+            setUsername ('');
+            setPassword ('');
         }
 
         setLoading(false);
@@ -54,7 +61,7 @@ const LoginView = ({ onLogin }) => {
                             <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                                 {loading ? 'Logging in...' : 'Login'}
                             </button>
-                            {error && <p>{error}</p>}
+                            {error && <p className="error-message">{error}</p>}
                         </form>
                     </div>
                 </div>

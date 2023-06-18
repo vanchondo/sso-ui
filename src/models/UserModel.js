@@ -1,18 +1,27 @@
+import { API_BASE_URL } from '../Constants';
+
 class UserModel {
-    static login(username, password) {
-      // Implement your login logic here
-      return new Promise((resolve, reject) => {
-        // Simulating async login request
-        setTimeout(() => {
-          if (username === 'admin' && password === 'admin') {
-            resolve({ username: 'admin' });
-          } else {
-            reject(new Error('Invalid credentials'));
-          }
-        }, 1000);
-      });
-    }
-  }
-  
-  export default UserModel;
-  
+    static async login(username, password) {
+        try {
+            const response = await fetch(API_BASE_URL + '/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                return await response.json();
+            } else {
+                console.error('Login failed');
+                throw new Error('Invalid credentials')
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            throw new Error('Invalid credentials')
+        }
+    };
+}
+
+export default UserModel;
