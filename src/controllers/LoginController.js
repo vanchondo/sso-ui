@@ -1,6 +1,6 @@
 import React from 'react';
 import UserModel from '../models/UserModel';
-import LoginView from '../views/LoginView';
+import LoginView from '../views/login/LoginView';
 
 class LoginController extends React.Component {
     handleLogin = async (username, password) => {
