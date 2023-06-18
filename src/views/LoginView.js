@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import './LoginView.css';
 
 const LoginView = ({ onLogin }) => {
@@ -21,51 +21,54 @@ const LoginView = ({ onLogin }) => {
             window.location.href = origin + "?token=" + data.token;
         } catch (error) {
             setError(error.message);
-            setUsername ('');
-            setPassword ('');
+            setUsername('');
+            setPassword('');
         }
 
         setLoading(false);
     };
 
     return (
-        <div className='login-container'>
-            <div className="login-overlay"></div>
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-lg-4 col-md-6 col-sm-8">
-                        <h2 className="text-center mb-4">Login</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label htmlFor="username" className="form-label">Username</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="username"
-                                    value={username}
-                                    placeholder="Enter your username"
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                                {loading ? 'Logging in...' : 'Login'}
-                            </button>
-                            {error && <p className="error-message">{error}</p>}
-                        </form>
+        <div className="row">
+            {error && <p className="error-message">{error}</p>}
+            <div className='col'></div>
+            <div className="col">
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="username" className="form-label">Usuario</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="username"
+                            value={username}
+                            placeholder="Usuario"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
                     </div>
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Contraseña</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <div className='row'>
+                        <div className='col'>
+                        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                            {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+                        </button>
+                        </div>
+                        <div className='col form-text'>
+                            ¿No tienes cuenta? <Link to="/register"> ¡Registrate! </Link>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <div className='col'></div>
         </div>
     );
 };

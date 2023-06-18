@@ -15,11 +15,11 @@ class UserModel {
                 return await response.json();
             } else {
                 console.error('Login failed');
-                throw new Error('Invalid credentials')
+                throw new Error('Credenciales inválidas')
             }
         } catch (error) {
             console.error('Login error:', error);
-            throw new Error('Invalid credentials')
+            throw new Error('Credenciales inválidas')
         }
     };
 }
