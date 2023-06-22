@@ -6,21 +6,18 @@ const LoginView = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const origin = queryParams.get('origin');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
 
         try {
             var data = await onLogin(username, password);
             window.location.href = origin + "?token=" + data.token;
         } catch (error) {
-            setError(error.message);
             setUsername('');
             setPassword('');
         }
@@ -30,7 +27,6 @@ const LoginView = ({ onLogin }) => {
 
     return (
         <div className="row">
-            {error && <p className="error-message">{error}</p>}
             <div className='col'></div>
             <div className="col">
                 <form onSubmit={handleSubmit}>
