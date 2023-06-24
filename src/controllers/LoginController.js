@@ -2,7 +2,6 @@ import React from 'react';
 import UserModel from '../models/UserModel';
 import LoginView from '../views/login/LoginView';
 
-  
 function LoginController( {setMessage} ) {
     const handleLogin = async (username, password) => {
         try {
