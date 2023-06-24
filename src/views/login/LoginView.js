@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import './LoginView.css';
 
-const LoginView = ({ onLogin }) => {
+const LoginView = ({ onLogin, setMessage }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const origin = queryParams.get('origin');
+    const origin = queryParams.get('origin');    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,7 +17,11 @@ const LoginView = ({ onLogin }) => {
         try {
             var data = await onLogin(username, password);
             window.location.href = origin + "?token=" + data.token;
-        } catch (error) {
+        } catch (error) { 
+            setMessage({
+                text: 'Credenciales inválidas',
+                type: 'Error'
+            });  
             setUsername('');
             setPassword('');
         }

@@ -3,6 +3,11 @@ import UserModel from '../models/UserModel';
 import LoginView from '../views/login/LoginView';
 
 class LoginController extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props = props;
+    }
+    
     handleLogin = async (username, password) => {
         try {
             const response = await UserModel.login(username, password);
@@ -15,7 +20,7 @@ class LoginController extends React.Component {
     };
 
     render() {
-        return <LoginView onLogin={this.handleLogin} />;
+        return <LoginView onLogin={this.handleLogin} setMessage={this.props.setMessage} />;
     }
 }
 

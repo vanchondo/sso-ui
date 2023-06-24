@@ -1,9 +1,10 @@
 import React from 'react';
 import LoginController from '../controllers/LoginController';
 
-function Login() {
+function Login( {setMessage} ) {
+
     return (
-        <LoginController />
+        <LoginController setMessage={setMessage}/>
     );
 };
 

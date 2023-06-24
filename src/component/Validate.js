@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import LoginController from '../controllers/LoginController';
 import UserModel from '../models/UserModel';
 
-function Validate() {
+function Validate( {setMessage} ) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
 
     useEffect( () => {
         var email = searchParams.get("email");
@@ -15,9 +14,7 @@ function Validate() {
                 return await UserModel.validate(email, token); 
         }
         
-        var msg = {
-            display : true
-        };
+        var msg = {};
         validateEmail(email, token).then(function() {
             msg.text = "Validación realizada correctamente";
             msg.type = 'Success';
@@ -26,14 +23,7 @@ function Validate() {
             msg.text = "Ocurrio un error con la validación";
             msg.type = 'Error';
         }).finally(function() {
-            navigate(
-                '/', 
-                {
-                    state: {
-                        message: msg
-                    }
-                }
-            );            
+            setMessage(msg);           
         })
 
     }, []);
