@@ -29,7 +29,7 @@ function Validate( {setMessage} ) {
     }, []);
 
     return (
-        <LoginController />
+        <LoginController setMessage={setMessage}/>
     );
 };
 
