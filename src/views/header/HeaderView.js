@@ -1,5 +1,5 @@
 import React from 'react';
-import './Header.css';
+import './HeaderView.css';
 
 const Header = ({message, setMessage}) => {
     const hideMessage = () => {

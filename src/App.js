@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './component/Register';
 import Validate from './component/Validate';
 import Login from './component/Login';
-import Header from './views/header/Header'
+import Header from './views/header/HeaderView'
 import './App.css';
 
 const App = () => {
