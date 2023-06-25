@@ -19,8 +19,8 @@ const RegisterView = ({ onRegister, setMessage }) => {
             setLoading(true);
             var data = await onRegister(username, email, password, passwordConfirm);
         } catch (error) {
-            setPassword('');
-            setPasswordConfirm('');
+            passwordRef.current.value = '';
+            passwordConfirmRef.current.value = '';
             setMessage({
                 type: 'Error',
                 text: error.message
