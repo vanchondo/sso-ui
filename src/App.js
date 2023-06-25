@@ -17,7 +17,7 @@ const App = () => {
           <div className='container'>
             <Routes>
               <Route exact path='/' element={< Login setMessage={setMessage} />}></Route>
-              <Route exact path='/register' element={< Register />}></Route>
+              <Route exact path='/register' element={< Register setMessage={setMessage} />}></Route>
               <Route exact path='/validate' element={< Validate setMessage={setMessage} />}></Route>
             </Routes>
           </div>

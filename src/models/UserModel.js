@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '../Constants';
 
 class UserModel {
-    headers = {
+    static headers = {
         'Content-Type': 'application/json',
     }
 
@@ -22,6 +22,26 @@ class UserModel {
         } catch (error) {
             console.error('Login error:', error);
             throw new Error('Credenciales inválidas')
+        }
+    };
+
+    static async register(username, email, password) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/register`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify({ username, password, email }),
+            });
+
+            if (response.ok) {
+                return await response.json();
+            } else {
+                console.error(`User registration failed`);
+                throw new Error('Usuario y/o email inválidos');
+            }
+        } catch (error) {
+            console.error(`User registration failed`);
+            throw new Error('Usuario y/o email inválidos');
         }
     };
 

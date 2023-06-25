@@ -1,33 +1,50 @@
-import React, { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
 import './RegisterView.css';
 
-const RegisterView = ({ onRegister }) => {
-
+const RegisterView = ({ onRegister, setMessage }) => {
+    const passwordRef = useRef(null);
+    const passwordConfirmRef = useRef(null);
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-    const [error, setError] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
 
         try {
-            var data = await onRegister(username, password, password2);
+            setLoading(true);
+            var data = await onRegister(username, email, password, passwordConfirm);
         } catch (error) {
-            setError(error.message);
-            setEmail('');
-            setUsername('');
             setPassword('');
-            setPassword2('');
-        }
+            setPasswordConfirm('');
+            setMessage({
+                type: 'Error',
+                text: error.message
+            });
 
-        setLoading(false);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    const passwordValidation = () => {
+        const passwordRegex=  /^[A-Za-z]\w{7,}$/;
+        const passwordElement = passwordRef.current;
+        const passwordConfirmElement = passwordConfirmRef.current;
+        
+        if (passwordElement.value && passwordElement.value === passwordConfirmElement.value && passwordRegex.test(passwordElement.value)){
+            passwordElement.setCustomValidity('');
+            passwordConfirmElement.setCustomValidity('');
+        }
+        else {
+            var errorMessage = 'Las contraseñas no son válidas, utilice una constraseña de por lo menos 7 carácteres';
+            passwordElement.setCustomValidity(errorMessage);
+            passwordConfirmElement.setCustomValidity(errorMessage);
+        }
+      };
 
     return (
         <div className="row">
@@ -65,18 +82,26 @@ const RegisterView = ({ onRegister }) => {
                         className="form-control" 
                         id="password" 
                         name="password"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            passwordValidation();
+                        }}
+                        ref={passwordRef}
                         required
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password2" className="form-label">Repita contraseña</label>
+                    <label htmlFor="passwordConfirm" className="form-label">Repita contraseña</label>
                     <input 
                         type="password" 
                         className="form-control" 
-                        id="password2" 
-                        name="password2"
-                        onChange={(e) => setPassword2(e.target.value)}
+                        id="passwordConfirm" 
+                        name="passwordConfirm"
+                        onChange={(e) => {
+                            setPasswordConfirm(e.target.value);
+                            passwordValidation();
+                        }}
+                        ref={passwordConfirmRef}
                         required
                     />
                 </div>

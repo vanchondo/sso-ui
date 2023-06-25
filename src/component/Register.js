@@ -1,9 +1,9 @@
 import React from 'react';
 import RegisterController from '../controllers/RegisterController';
   
-function Register (){
+function Register({setMessage}){
     return (
-        <RegisterController />
+        <RegisterController setMessage={setMessage}/>
     );
 }
   
