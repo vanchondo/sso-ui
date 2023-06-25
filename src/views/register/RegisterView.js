@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RegisterView.css';
 
 const RegisterView = ({ onRegister, setMessage }) => {
+    const navigate = useNavigate();
     const passwordRef = useRef(null);
     const passwordConfirmRef = useRef(null);
     const usernameRef = useRef(null);
@@ -17,7 +19,12 @@ const RegisterView = ({ onRegister, setMessage }) => {
 
         try {
             setLoading(true);
-            var data = await onRegister(username, email, password, passwordConfirm);
+            await onRegister(username, email, password, passwordConfirm);
+            navigate('/');
+            setMessage({
+                type: 'Success',
+                text: 'Usuario registrado correctamente, email de verificación enviado.'
+            });
         } catch (error) {
             passwordRef.current.value = '';
             passwordConfirmRef.current.value = '';
