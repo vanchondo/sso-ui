@@ -2,7 +2,7 @@ import { API_BASE_URL } from '../Constants';
 
 class UserModel {
     static headers = {
-        'Content-Type': 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
     }
 
     static async login(username, password) {
@@ -10,7 +10,10 @@ class UserModel {
             const response = await fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: this.headers,
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                 })
             });
 
             if (response.ok) {
@@ -30,7 +33,11 @@ class UserModel {
             const response = await fetch(`${API_BASE_URL}/register`, {
                 method: 'POST',
                 headers: this.headers,
-                body: JSON.stringify({ username, password, email }),
+                body: JSON.stringify({ 
+                    username: username, 
+                    password: password, 
+                    email: email 
+                }),
             });
 
             if (response.ok) {
