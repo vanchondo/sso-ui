@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import ReCaptcha from 'react-google-recaptcha';
 import './LoginView.css';
-import { GOOGLE_RECAPTCHA_KEY } from '../../Constants';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const LoginView = ({ onLogin, setMessage }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [captcha, setCaptcha] = useState('');
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const origin = queryParams.get('origin');    
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+        const token = await executeRecaptcha('login');
         try {
-            var data = await onLogin(username, password, captcha);
+            var data = await onLogin(username, password, token);
             window.location.href = origin + "?token=" + data.token;
         } catch (error) { 
             setMessage({
@@ -59,15 +58,13 @@ const LoginView = ({ onLogin, setMessage }) => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <div>
-                    <ReCaptcha
-                        sitekey={GOOGLE_RECAPTCHA_KEY}
-                        onChange={(e) => setCaptcha(e.target.value)}
-                    />
-                    </div>
                     <div className='row'>
                         <div className='col'>
-                        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                        <button 
+                            type="submit" 
+                            // data-sitekey="6LeCxtUmAAAAAFGsBbtCD-yUx2PfXlghImgoWuOC" 
+                            className="btn btn-primary w-100" 
+                            disabled={loading}>
                             {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
                         </button>
                         </div>
