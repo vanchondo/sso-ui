@@ -3,9 +3,9 @@ import UserModel from '../models/UserModel';
 import LoginView from '../views/login/LoginView';
 
 function LoginController( {setMessage} ) {
-    const handleLogin = async (username, password) => {
+    const handleLogin = async (username, password, captcha) => {
         try {
-            const response = await UserModel.login(username, password);
+            const response = await UserModel.login(username, password, captcha);
             console.log('Login successful:', response);
             return response;
         } catch (error) {

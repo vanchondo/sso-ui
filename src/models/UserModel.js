@@ -5,14 +5,15 @@ class UserModel {
         'Content-type': 'application/json; charset=UTF-8',
     }
 
-    static async login(username, password) {
+    static async login(username, password, captcha) {
         try {
             const response = await fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: this.headers,
                 body: JSON.stringify({
                     username: username,
-                    password: password
+                    password: password,
+                    captchaResponse: captcha
                  })
             });
 

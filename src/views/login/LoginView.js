@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import ReCaptcha from 'react-google-recaptcha';
 import './LoginView.css';
+import { GOOGLE_RECAPTCHA_KEY } from '../../Constants';
 
 const LoginView = ({ onLogin, setMessage }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [captcha, setCaptcha] = useState('');
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -15,7 +18,7 @@ const LoginView = ({ onLogin, setMessage }) => {
         setLoading(true);
 
         try {
-            var data = await onLogin(username, password);
+            var data = await onLogin(username, password, captcha);
             window.location.href = origin + "?token=" + data.token;
         } catch (error) { 
             setMessage({
@@ -55,6 +58,12 @@ const LoginView = ({ onLogin, setMessage }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                    </div>
+                    <div>
+                    <ReCaptcha
+                        sitekey={GOOGLE_RECAPTCHA_KEY}
+                        onChange={(e) => setCaptcha(e.target.value)}
+                    />
                     </div>
                     <div className='row'>
                         <div className='col'>
