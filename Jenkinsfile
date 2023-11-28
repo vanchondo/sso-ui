@@ -11,7 +11,7 @@ pipeline {
             steps {
                 discordSend description: "${DISCORD_START_MESSAGE}", footer: "", enableArtifactsList: false, link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "${WEBHOOK_URL}"
                 sh 'docker image build -t ${app_name}:${version} .'
-                sh 'docker image tag ${app_name}:${version} ${REGISTRY_SERVER}/${app_name}'
+                sh 'docker image tag ${app_name}:${version} ${REGISTRY_SERVER}/${app_name}:{version}'
             }
         }
         stage('Docker Push') {
