@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'CREDENTIALS_USERNAME', passwordVariable: 'CREDENTIALS_PASSWORD')]) {
                     sh 'echo $CREDENTIALS_PASSWORD |  docker login -u ${CREDENTIALS_USERNAME} --password-stdin ${REGISTRY_URL}'
-                    sh 'docker push ${REGISTRY_SERVER}/${app_name}'
+                    sh 'docker push ${REGISTRY_SERVER}/${app_name}:${version}'
                 }
             }
         }
